@@ -101,9 +101,10 @@ nav a:hover {
 
 /* Seções */
 
-#info-squirtle img{
-  height: 250px;
-  width: 250px;
+#info-squirtle img {
+  width: 150px;
+  height: 150px;
+  align-self: center;
 }
 
 #curiosidades li::marker {
@@ -182,7 +183,7 @@ footer a[href]:hover {
 }
 
 #squirtle-hd{
-  padding: 70px;
+  padding: 35px;
 }
 
 .container{
