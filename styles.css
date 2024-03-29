@@ -194,7 +194,8 @@ footer p {
   margin-bottom: 0;
 }
 
-footer a {
+footer a, 
+#recursos a{
   text-decoration: none;
   transition: opacity 0.3s ease-in-out;
 }
@@ -211,32 +212,23 @@ footer a[href*='tel'] {
   color: limegreen;
 }
 
-footer a[href]:hover {
+footer a[href]:hover,
+#recursos a:hover {
   opacity: 0.4;
 }
 
 /* Keyframes */
 
 @keyframes fade-in{
-  
+
   0%{
     opacity: 0;
-  }
-
-  25%{
-    opacity: 0.25;
-  }
-
-  50%{
-    opacity: 0.5;
-  }
-
-  75%{
-    opacity: 0.75;
+    transform: translateY(-20px);
   }
 
   100%{
    opacity: 1;
+   transform: translateY(0px);
   }
 
 }
