@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', function () {
   getSearchParams()
 })
 
+var arraySprite;
+
 function getSearchParams() {
   // Early return -> Caso location search, não faz nada.
   if (!location.search && location.pathname === '/pages/pokemon') {
@@ -40,6 +42,8 @@ function generateInfoSection(src, pokemonName) {
   img.id = 'img-change'
   img.alt = `Imagem do pokemon ${pokemonName}`
 
+  img.addEventListener('click', updateImage);
+
   const section = document.querySelector('#info-pokemon')
 
   section.appendChild(h2)
@@ -59,7 +63,12 @@ async function getPokemonData(name) {
 
     const jsonData = await data.json()
 
-    generateInfoSection(jsonData.sprites.front_default, name)
+
+    const sprite = Object.values(jsonData.sprites);
+    arraySprite = sprite.filter(link => typeof link === "string")
+
+    generateInfoSection(arraySprite[0], name)
+
   } catch (error) {
     console.error(error)
   }
@@ -112,6 +121,17 @@ function updateCount(){
 
 }
 
-document.querySelector("#img-change").addEventListener('click', () => {
+function updateImage(){
 
-});
+  let img = document.querySelector("#img-change");
+  index = arraySprite.indexOf(img.src);
+
+  if (index === (arraySprite.length - 1)){
+    index = 0;
+  }else{
+    index++;
+  }
+  
+  img.src = arraySprite[index];
+
+};
