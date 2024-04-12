@@ -1,4 +1,8 @@
 section img {
     width: 150px;
     height: 150px;
-  }
+}
+
+main{
+  grid-template-columns: 1fr;
+}

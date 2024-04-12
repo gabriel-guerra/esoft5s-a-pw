@@ -1,10 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () { 
+  getLocalObject()
   getSearchParams()
 })
 
 function getSearchParams() {
   // Early return -> Caso location search, não faz nada.
-  if (!location.search && location.) {
+  if (!location.search && location.pathname === '/pages/pokemon') {
     return
   }
 
@@ -12,15 +13,16 @@ function getSearchParams() {
   let accessInfo = JSON.parse(localStorage.getItem("accessInfo"));
   createP(accessInfo.count, accessInfo.lastVisit);
   
+  if (location.search){
+    // URLSearchParams é uma classe que facilita a manipulação de query strings
+    const urlSearchParams = new URLSearchParams(location.search)
 
-  // URLSearchParams é uma classe que facilita a manipulação de query strings
-  const urlSearchParams = new URLSearchParams(location.search)
+    // Pegando o valor do parâmetro name
+    const pokemonName = urlSearchParams.get('name')
 
-  // Pegando o valor do parâmetro name
-  const pokemonName = urlSearchParams.get('name')
-
-  changePageTitle(`Pagina do ${pokemonName}`)
-  getPokemonData(pokemonName)
+    changePageTitle(`Pagina do ${pokemonName}`)
+    getPokemonData(pokemonName)
+  }
 }
 
 
@@ -35,6 +37,7 @@ function generateInfoSection(src, pokemonName) {
 
   const img = document.querySelector('img')
   img.src = src
+  img.id = 'img-change'
   img.alt = `Imagem do pokemon ${pokemonName}`
 
   const section = document.querySelector('#info-pokemon')
@@ -108,3 +111,7 @@ function updateCount(){
   localStorage.setItem("accessInfo", JSON.stringify(object));
 
 }
+
+document.querySelector("#img-change").addEventListener('click', () => {
+
+});
