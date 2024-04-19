@@ -1,54 +1,32 @@
-document.addEventListener('DOMContentLoaded', function () { 
-  getLocalObject()
-  getSearchParams()
-})
-
-var arraySprite;
-
-function getSearchParams() {
-  // Early return -> Caso location search, não faz nada.
-  if (!location.search && location.pathname === '/pages/pokemon') {
-    return
-  }
-
-  updateCount();
-  let accessInfo = JSON.parse(localStorage.getItem("accessInfo"));
-  createP(accessInfo.count, accessInfo.lastVisit);
-  
-  if (location.search){
-    // URLSearchParams é uma classe que facilita a manipulação de query strings
-    const urlSearchParams = new URLSearchParams(location.search)
-
-    // Pegando o valor do parâmetro name
-    const pokemonName = urlSearchParams.get('name')
-
-    changePageTitle(`Pagina do ${pokemonName}`)
-    getPokemonData(pokemonName)
-  }
-}
-
-
 function changePageTitle(title) {
-    document.title = title
+  document.title = title
 }
-  
-function generateInfoSection(src, pokemonName) {
+
+function generateInfoSection(sprites, pokemonName) {
+  const imagens = Object.values(sprites)
+    .filter(sprite => typeof sprite === 'string')
+
   const h2 = document.createElement('h2')
   h2.id = "info-pokemon-label"
   h2.textContent = `Informações sobre ${pokemonName}`
 
   const img = document.querySelector('img')
-  img.src = src
-  img.id = 'img-change'
+  img.src = imagens[0]
   img.alt = `Imagem do pokemon ${pokemonName}`
-
-  img.addEventListener('click', updateImage);
 
   const section = document.querySelector('#info-pokemon')
 
   section.appendChild(h2)
   section.appendChild(img)
+
+  let indiceAtual = 0;
+
+  img.addEventListener('click', () => {
+    indiceAtual = (indiceAtual + 1) % imagens.length;
+    img.src = imagens[indiceAtual];
+  });
 }
+
 
 async function getPokemonData(name) {
   // fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
@@ -63,75 +41,28 @@ async function getPokemonData(name) {
 
     const jsonData = await data.json()
 
-
-    const sprite = Object.values(jsonData.sprites);
-    arraySprite = sprite.filter(link => typeof link === "string")
-
-    generateInfoSection(arraySprite[0], name)
-
+    generateInfoSection(jsonData.sprites, name)
   } catch (error) {
     console.error(error)
   }
 }
 
-function getLocalObject(){
-
-  if (!localStorage.getItem("accessInfo")){
-    object = {
-      count: 0, 
-      lastVisit: `01/01/1900, 00:00`
-    }
-  
-    localStorage.setItem("accessInfo", JSON.stringify(object));  
+function getSearchParams() {
+  // Early return -> Caso location search, não faz nada.
+  if (!location.search) {
+    return
   }
 
-  return JSON.parse(localStorage.getItem("accessInfo"));
+  // URLSearchParams é uma classe que facilita a manipulação de query strings
+  const urlSearchParams = new URLSearchParams(location.search)
 
+  // Pegando o valor do parâmetro name
+  const pokemonName = urlSearchParams.get('name')
+
+  changePageTitle(`Pagina do ${pokemonName}`)
+  getPokemonData(pokemonName)
 }
 
-function createP(count, lastVisit){
-  const footer = document.querySelector("footer");
-
-  const p = document.createElement("p");
-  p.textContent = `Esta página foi visitada ${count} vezes. A última visita foi: ${lastVisit}`;
-
-  footer.appendChild(p);
-
-}
-
-function updateCount(){
-
-  let counter = JSON.parse(localStorage.getItem("accessInfo")).count;
-  counter++;
-
-  let dateFormat = Intl.DateTimeFormat("pt-BR", {
-      day: "numeric",
-      month: "numeric",
-      year: "numeric",
-      hour: "numeric",
-      minute: "numeric"
-    }).format(new Date());
-
-  let object = {
-    count: counter, 
-    lastVisit: `${dateFormat}`
-  }
-
-  localStorage.setItem("accessInfo", JSON.stringify(object));
-
-}
-
-function updateImage(){
-
-  let img = document.querySelector("#img-change");
-  index = arraySprite.indexOf(img.src);
-
-  if (index === (arraySprite.length - 1)){
-    index = 0;
-  }else{
-    index++;
-  }
-  
-  img.src = arraySprite[index];
-
-};
+document.addEventListener('DOMContentLoaded', function () {
+  getSearchParams()
+})
