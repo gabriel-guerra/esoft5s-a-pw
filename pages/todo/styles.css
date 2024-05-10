@@ -4,10 +4,16 @@ body{
     background-color: #f4f4f4
 }
 
+header h1{
+    font-size: 30px;
+}
+
 main{
     display: grid;
     grid-template-rows: auto 1fr;
     grid-template-columns: 1fr;
+    gap: 0px;
+
 }
 
 form{
@@ -19,13 +25,14 @@ form{
 
 form > input{
     margin-top: 10px;
-    width: 200px;
+    width: 250px;
     height: 40px;
 }
 
 form > textarea{
     margin-top: 5px;
-    width: 200px;
+    margin-bottom: 10px;
+    width: 250px;
     height: 60px;
 }
 
@@ -35,9 +42,30 @@ header, footer {
 }
 
 button{
-    width: 100px;
+    width: 150px;
     color: white;
     padding: 10px;
     background-color: #0074d9;
     border: none;
+}
+
+.tarefa{
+    border-color: lightgray;
+    border-style: solid;
+    border-width: 2px;
+    height: auto;
+    margin: 15px;
+}
+
+h2, p{
+    margin: 20px;
+}
+
+div p{
+    white-space: pre-wrap;
+}
+
+*::placeholder{
+    font-family: 'Arial', sans-serif;
+    padding: 5px;
 }

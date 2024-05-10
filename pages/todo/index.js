@@ -37,27 +37,24 @@ function limparDados(){
 function main(){
     document.addEventListener('DOMContentLoaded', () => {
     
-        const main = document.querySelector('main');
+        const content = document.querySelector('#content');
         const tarefas = JSON.parse(localStorage.getItem('tarefas'))
-        console.log(tarefas)
 
         tarefas.map((tarefa) => {
             const div = document.createElement('div');
-            const h4 = document.createElement('h4');
+            const h2 = document.createElement('h2');
             const p = document.createElement('p');
 
-            h4.textContent = tarefa.nome;
+            div.classList.add("tarefa");
+            h2.textContent = tarefa.nome;
             p.textContent = tarefa.descricao;
 
-            div.appendChild(h4)
+            div.appendChild(h2)
             div.appendChild(p)
 
-            main.appendChild(div)
+            content.appendChild(div)
 
         })
-        
-        
-
     
     })
 }
