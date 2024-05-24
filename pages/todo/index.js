@@ -1,62 +1,74 @@
-function enviarFormulario(e){
-    e.preventDefault()
-    
-    const dados = new FormData(e.target)
-    tarefa = {
-        nome: dados.get('nome'),
-        descricao: dados.get('descricao')
-    }
+const taskKey = '@tasks'
 
-    if (!localStorage.getItem('tarefas')){
+// Função para adicionar tarefa
+function addTask(event) {
+  event.preventDefault() // Evita o recarregamento da página
+  const taskId = new Date().getTime()
+  const taskList = document.querySelector('#taskList')
 
-        let tarefas = [];
-        tarefas.push(tarefa);
+  const form = document.querySelector('#taskForm')
+  const formData = new FormData(form)
 
-        localStorage.setItem('tarefas', JSON.stringify(tarefas))
-    }else{
+  const taskTitle = formData.get('title')
+  const taskDescription = formData.get('description')
 
-        let tarefas = JSON.parse(localStorage.getItem('tarefas'))
-        tarefas.push(tarefa);
-        localStorage.setItem('tarefas', JSON.stringify(tarefas))
+  const li = document.createElement('li')
 
-    }
+  li.id = taskId
+  li.innerHTML = `
+      <h2>${taskTitle}</h2>
+      <p>${taskDescription}</p>
+      <button class="edit-button" title="Editar Tarefa" onclick="openModal(event)">✏️</button>
+  `
+  
+  taskList.appendChild(li)
 
-    limparDados()
+  // Salvar tarefas no localStorage
+  const tasks = JSON.parse(localStorage.getItem(taskKey)) || []
+  tasks.push({ title: taskTitle, description: taskDescription })
+  localStorage.setItem(taskKey, JSON.stringify(tasks))
+
+  form.reset()
 }
 
-function limparDados(){
+function updateTask(event) {
+    event.preventDefault() // Evita o recarregamento da página
+    
+    const form = event.srcElement
+    const formData = new FormData(form)
 
-    const campoNome = document.querySelector('#nome')
-    campoNome.value = "";
+    const newTitle = formData.get('title')
+    const newDescription = formData.get('description')
+    // não consegui terminar :(
 
-    const campoDescricao = document.querySelector('#descricao');
-    campoDescricao.value = "";
 
+    // Salvar tarefas no localStorage
+    // const tasks = JSON.parse(localStorage.getItem(taskKey)) || []
+    // tasks.push({ title: taskTitle, description: taskDescription })
+    // localStorage.setItem(taskKey, JSON.stringify(tasks))
+  
+    // form.reset()
 }
 
-function main(){
-    document.addEventListener('DOMContentLoaded', () => {
-    
-        const content = document.querySelector('#content');
-        const tarefas = JSON.parse(localStorage.getItem('tarefas'))
+// Carregar tarefas do localStorage ao recarregar a página
+window.addEventListener('DOMContentLoaded', () => {
+  const tasks = JSON.parse(localStorage.getItem(taskKey)) || []
+  const taskList = document.querySelector('#taskList')
+  taskList.innerHTML = tasks
+    .map((task) => `
+    <li>
+        <h2>${task.title}</h2>
+        <p>${task.description}</p>
+        <button class="edit-button" title="Editar Tarefa" onclick="openModal(event)">✏️</button>
+    </li>`)
+    .join('')
+})
 
-        tarefas.map((tarefa) => {
-            const div = document.createElement('div');
-            const h2 = document.createElement('h2');
-            const p = document.createElement('p');
-
-            div.classList.add("tarefa");
-            h2.textContent = tarefa.nome;
-            p.textContent = tarefa.descricao;
-
-            div.appendChild(h2)
-            div.appendChild(p)
-
-            content.appendChild(div)
-
-        })
-    
-    })
+function openModal(e){
+    document.querySelector("dialog").showModal()
+    console.log(e)
 }
 
-main()
+function closeModal(){
+    document.querySelector("dialog").close()
+}

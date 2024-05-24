@@ -1,71 +1,103 @@
-body{
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    background-color: #f4f4f4
+/* Reset de estilos para garantir consistência em diferentes navegadores */
+body,
+h1,
+h2,
+p,
+ul,
+ol,
+li,
+figure,
+table,
+th,
+td {
+  margin: 0;
+  padding: 0;
 }
 
-header h1{
-    font-size: 30px;
+* {
+  box-sizing: border-box;
 }
 
-main{
-    display: grid;
-    grid-template-rows: auto 1fr;
-    grid-template-columns: 1fr;
-    gap: 0px;
-
+body {
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  background-color: #f4f4f4;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-form{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.container {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
 }
 
-form > input{
-    margin-top: 10px;
-    width: 250px;
-    height: 40px;
+header,
+footer {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
 }
 
-form > textarea{
-    margin-top: 5px;
-    margin-bottom: 10px;
-    width: 250px;
-    height: 60px;
+main {
+  padding: 16px;
 }
 
-
-header, footer {
-    background-color: #333;
+main form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  width: 40ch;
+  margin: 0 auto;
 }
 
-button{
-    width: 150px;
-    color: white;
-    padding: 10px;
-    background-color: #0074d9;
-    border: none;
+input,
+textarea {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
 }
 
-.tarefa{
-    border-color: lightgray;
-    border-style: solid;
-    border-width: 2px;
-    height: auto;
-    margin: 15px;
+input,
+textarea::placeholder {
+  font-family: 'Arial', sans-serif;
 }
 
-h2, p{
-    margin: 20px;
+button {
+  background-color: #0074d9;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
 }
 
-div p{
-    white-space: pre-wrap;
+ul {
+  list-style: none;
+  padding: 0;
+  max-width: 80ch;
+  margin: 0 auto;
 }
 
-*::placeholder{
-    font-family: 'Arial', sans-serif;
-    padding: 5px;
+li {
+  margin: 8px 0;
+  padding: 20px;
+  border: solid 1px #ccc;
+  position: relative;
+}
+
+.edit-button{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #676767;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+li p {
+  white-space: pre-wrap;
+  margin-top: 10px;
 }
